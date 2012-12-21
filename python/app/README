@@ -1,0 +1,11 @@
+asig:
+--------------------------------------------------------------------------------
+This application presents a fairly complete audio signal generator. It allows to 
+mix up to four common wave forms as well as a form of noise. Shape, frequency, 
+and amplitudes of signals and noise are configurable.
+
+Apart from straight audio output, output to a UDP socket as well as raw GNU
+Radio compatible file and wave file output are supported.
+
+The application depends on wxPython, GNU Radio, and psutils. It has been tested 
+only on Kubuntu 12.10.
