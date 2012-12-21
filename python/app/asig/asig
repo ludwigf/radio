@@ -1,0 +1,8 @@
+#!	/bin/bash
+BASEPATH=/data/develop/radio/python
+export PYTHONPATH=${PYTHONPATH}:${BASEPATH}/lib
+export APPBASE=${BASEPATH}/app/asig
+export RESOURCES=${BASEPATH}/resources
+cd ${APPBASE}
+./asig.py
+
