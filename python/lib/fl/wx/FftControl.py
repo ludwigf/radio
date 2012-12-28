@@ -22,7 +22,7 @@ class FftControl(wx.Panel):
             sample_rate=48000,
             fft_size=1024,
             fft_rate=15,
-            average=False,
+            average=True,
             avg_alpha=None,
             title="FFT Plot",
             peak_hold=False,
