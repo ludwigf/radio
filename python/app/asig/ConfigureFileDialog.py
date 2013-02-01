@@ -7,10 +7,16 @@ from fl.wx.FileControl import FileControl
 #   ============================================================================
 class ConfigureFileDialog(wx.Dialog):
 #   ============================================================================
+    """
+    Dialog to allow customization of the application's File sink.
+    """
 
     #   ------------------------------------------------------------------------
     def __init__(self, parent, info={}):
     #   ------------------------------------------------------------------------
+        """
+        Initialize underlying wx.Dialog object and setup dialog GUI.
+        """
         super(ConfigureFileDialog, self).__init__(
             parent, title="Configure Raw File Sink:")
         self.xInitGui(info)
@@ -19,12 +25,21 @@ class ConfigureFileDialog(wx.Dialog):
     #   ------------------------------------------------------------------------
     def GetDestinationFile(self):
     #   ------------------------------------------------------------------------
+        """
+        Return full path name of the File sink's underlying disk file.
+        """
+        
         return str(self.editDestFile.GetValue())
     
     
     #   ------------------------------------------------------------------------
     def xInitGui(self, info):
     #   ------------------------------------------------------------------------
+        """
+        Initialize dialog's GUI elements. Initial values are passed through the
+        method's info parameter.
+        """
+        
         labelDestFile = wx.StaticText(self, label="File Name:", 
             size=(120,20), style=wx.ST_NO_AUTORESIZE)
         self.editDestFile = FileControl(self, value="", size=(-1,22))

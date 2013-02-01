@@ -11,16 +11,27 @@ import wx
 #   ============================================================================
 class Monitor(wx.Notebook):
 #   ============================================================================
-
+    """
+    The application's signal visualizer. Consists of a wx.Notebook containing
+    scope, FFT, histogram, and waterfall visualizations of the generated signal.
+    """
+    
     #   ------------------------------------------------------------------------
     def __init__(self, parent):
     #   ------------------------------------------------------------------------
+        """
+        Initialize the underlying wx.Notebook object and trigger addition of the
+        signal views.
+        """
         super(Monitor, self).__init__(parent)
         self.xInitGui()
         
     #   ------------------------------------------------------------------------
     def xInitGui(self):
     #   ------------------------------------------------------------------------
+        """
+        Create and add the various signal visualizations.
+        """
         self.scope = ScopePage(self)
         self.AddPage(self.scope, "Scope")
         self.fft = FftPage(self)
@@ -35,15 +46,21 @@ class Monitor(wx.Notebook):
     #   ------------------------------------------------------------------------
     def Sinks(self):
     #   ------------------------------------------------------------------------
+        """
+        Return list of Gnuradio sinks associated with the contained signal
+        visualizers.
+        """
         return [self.scope.Sink(), self.fft.Sink(), self.histo.Sink(),
             self.waterfall.Sink()]
     
     #   ------------------------------------------------------------------------
     def ProcessCommand(self, sender, command):
     #   ------------------------------------------------------------------------
+        """
+        Visualizer'c command handler. Currently not used.
+        """
         #self.trace.ProcessCommand(sender, command)
         pass
-    
     
 
 #   ============================================================================

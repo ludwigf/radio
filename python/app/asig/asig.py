@@ -9,10 +9,17 @@ from fl.wx.Resources import Resources
 #   ============================================================================
 class App(wx.App):
 #   ============================================================================
+    """
+    The asig Application object. Encapsulates wx.App and serves as a container
+    for top level objects.
+    """
 
     #   ------------------------------------------------------------------------
     def __init__(self, signals, noises, sinks):
     #   ------------------------------------------------------------------------
+        """
+        Create and initialize wx.App and top level objects.
+        """
         super(App, self).__init__()
         self.resources = Resources(os.environ["RESOURCES"])
         self.frame = Frame(signals, noises, sinks)
@@ -21,6 +28,9 @@ class App(wx.App):
     #   ------------------------------------------------------------------------
     def PostStatus(self, status):
     #   ------------------------------------------------------------------------
+        """
+        Post status message to the main window's status bar.
+        """
         self.frame.statusbar.PostMessage(status)
         
         

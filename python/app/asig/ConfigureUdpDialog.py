@@ -5,10 +5,16 @@ import wx
 #   ============================================================================
 class ConfigureUdpDialog(wx.Dialog):
 #   ============================================================================
+    """
+    Dialog to allow customization of the application's UDP sink.
+    """
 
     #   ------------------------------------------------------------------------
     def __init__(self, parent, info={}):
     #   ------------------------------------------------------------------------
+        """
+        Initialize underlying wx.Dialog object and setup dialog GUI.
+        """
         super(ConfigureUdpDialog, self).__init__(
             parent, title="Configure UDP Sink:")
         self.xInitGui(info)
@@ -17,18 +23,30 @@ class ConfigureUdpDialog(wx.Dialog):
     #   ------------------------------------------------------------------------
     def GetDestinationHost(self):
     #   ------------------------------------------------------------------------
+        """
+        Return destination host name for the UDP sink.
+        """
         return str(self.editDestHost.GetValue())
     
     
     #   ------------------------------------------------------------------------
     def GetDestinationPort(self):
     #   ------------------------------------------------------------------------
+        """
+        Return destination port for the UDP sink, as a string.
+        """
+        
         return int(self.editDestPort.GetValue())
     
     
     #   ------------------------------------------------------------------------
     def xInitGui(self, info):
     #   ------------------------------------------------------------------------
+        """
+        Initialize dialog's GUI elements. Initial values are passed through the
+        method's info parameter.
+        """
+        
         labelDestHost = wx.StaticText(self, label="Destination Host:", 
             size=(120,20), style=wx.ST_NO_AUTORESIZE)
         self.editDestHost = wx.TextCtrl(self, size=(-1,20))

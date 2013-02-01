@@ -5,10 +5,19 @@ import wx
 #   ============================================================================
 class FileMenu(wx.Menu):
 #   ============================================================================
-
+    """
+    The application's File menu. It binds to the containing menu bar's "handler"
+    member as its menu handler.
+    """
+    
     #   ------------------------------------------------------------------------
     def __init__(self, menubar):
     #   ------------------------------------------------------------------------
+        """
+        Initializes the underlying wx.Menu item and triggers creation of the
+        menu items.
+        """
+        
         super(FileMenu, self).__init__()
         self.xInitGui()
     
@@ -20,6 +29,10 @@ class FileMenu(wx.Menu):
     #   ------------------------------------------------------------------------
     def xInitGui(self):
     #   ------------------------------------------------------------------------
+        """
+        Adds the actual menu items.
+        """
+        
         self.itemOpen = self.Append(
             wx.ID_OPEN, "Open", "Load Generator Configuration")
         self.itemSave = self.Append(
@@ -34,10 +47,19 @@ class FileMenu(wx.Menu):
 #   ============================================================================
 class ConfigMenu(wx.Menu):
 #   ============================================================================
-
+    """
+    The application's Config menu. It binds to the containing menu bar's 
+    "Handler" member as its menu handler.
+    """
+    
     #   ------------------------------------------------------------------------
     def __init__(self, menubar):
     #   ------------------------------------------------------------------------
+        """
+        Initializes the underlying wx.Menu item and triggers creation of the
+        menu items.
+        """
+        
         super(ConfigMenu, self).__init__()
         self.xInitGui()
 
@@ -48,6 +70,10 @@ class ConfigMenu(wx.Menu):
     #   ------------------------------------------------------------------------
     def xInitGui(self):
     #   ------------------------------------------------------------------------
+        """
+        Adds the actual menu items.
+        """
+        
         bmp = wx.GetApp().resources.Bitmap("16x16", "udpsink")
         self.itemUDP = wx.MenuItem(
             self, wx.ID_FILE1, "UDP Sink...", "Configure UDP Sink")
@@ -70,10 +96,19 @@ class ConfigMenu(wx.Menu):
 #   ============================================================================
 class HelpMenu(wx.Menu):
 #   ============================================================================
-
+    """
+    The application's Help menu. It binds to the containing menu bar's 
+    "Handler" member as its menu handler.
+    """
+    
     #   ------------------------------------------------------------------------
     def __init__(self, menubar):
     #   ------------------------------------------------------------------------
+        """
+        Initializes the underlying wx.Menu item and triggers creation of the
+        menu items.
+        """
+        
         super(HelpMenu, self).__init__()
         self.xInitGui()
     
@@ -82,6 +117,10 @@ class HelpMenu(wx.Menu):
     #   ------------------------------------------------------------------------
     def xInitGui(self):
     #   ------------------------------------------------------------------------
+        """
+        Adds the actual menu items.
+        """
+        
         self.itemAbout = self.Append(
             wx.ID_ABOUT, "A&bout", "About Signal Generator")
         
@@ -89,20 +128,32 @@ class HelpMenu(wx.Menu):
 #   ============================================================================
 class MenuBar(wx.MenuBar):
 #   ============================================================================
-
+    """
+    The application's menu bar. It also provides the handler for the menu items
+    in all the menus it contains.
+    """
+    
     #   ------------------------------------------------------------------------
     def __init__(self, parent, handler=None):
     #   ------------------------------------------------------------------------
+        """
+        Initializes the underlying wx.MenuBar object and triggers the addition
+        of all the application's standard menus.
+        """
+        
         super(MenuBar, self).__init__()
         self.parent = parent
         self.handler = handler
         self.xInitGui()
         parent.SetMenuBar(self)
         
-        
     #   ------------------------------------------------------------------------
     def xInitGui(self):
     #   ------------------------------------------------------------------------
+        """
+        Adds the application's main menus.
+        """
+        
         self.Append(FileMenu(self), "&File")
         self.Append(ConfigMenu(self), "&Config")
         self.Append(HelpMenu(self), "&Help")
@@ -111,5 +162,12 @@ class MenuBar(wx.MenuBar):
     #   ------------------------------------------------------------------------
     def Handler(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Returns the default handler for all the menu events originating from all
+        the menu items it contains. Does any menu updates, then calls an 
+        external handler, if provided (typically the handler of the containing
+        frame).
+        """
+        
         if self.handler:
             self.handler(event)

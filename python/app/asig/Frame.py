@@ -17,30 +17,54 @@ import wx
 #   ============================================================================
 class Frame(wx.Frame):
 #   ============================================================================
-
+    """
+    The application's main window. Also doubles as the application's main menu
+    handler.
+    """
+    
     #   ------------------------------------------------------------------------
     def __init__(self, signals, noises, sinks):
     #   ------------------------------------------------------------------------
+        """
+        Initialize wx.Frame and trigger initialization of all embedded objects. 
+        Embedded object include:
+        - controls for signal generators
+        - controls for noise generators
+        - the gnuradio based SignalGenerator object that provides the backend
+        - default configurations for all available output options
+        Starts the backend SignalGenerator object once everything is set up.
+        """
+        
         super(Frame, self).__init__(
             None, -1, "GNU Radio Signal Generator")
         self.SetIcon(wx.GetApp().resources.Icon("64x64", "signals"))
         self.xInitGui(signals, noises, sinks)
+        
+        # Create backend processor and set as handler for signal and noise GUI
+        #  controls
         self.generator = SignalGenerator(
             signals=signals, noises=noises, sinks=self.trace.Sinks())
         self.signals.SetHandlers([self.generator, self.trace])
         self.sinks.SetHandlers([self.generator])
         
+        # Create default configurations for available gnuradio sinks
         self.configfile = None
         self.fileConfig = {"filename": ""}
         self.waveConfig = {"filename": ""}
         self.udpConfig = {"host": "", "port": 9966}
         self.generator.SetUdpConfig(self.udpConfig)
+        
         self.generator.Start()
 
         
     #   ------------------------------------------------------------------------
     def MenuHandler(self, event):
     #   ------------------------------------------------------------------------
+        """
+        
+        Menu handler for all main menu items. Specific menu handlers are invoked
+        based on sending item's ID.
+        """
         action = event.GetId()
         if action == wx.ID_EXIT:
             self.Close()
@@ -63,12 +87,24 @@ class Frame(wx.Frame):
     #   ------------------------------------------------------------------------
     def PostStatus(self, message):
     #   ------------------------------------------------------------------------
+        """
+        Post given message to the window's status bar.
+        """
+        
         self.statusbar.PostMessage(message)
         
     
     #   ------------------------------------------------------------------------
     def xInitGui(self, signals, noises, sinks):
     #   ------------------------------------------------------------------------
+        """
+        Creates and initializes the main GUI elements, such as:
+        - a monitor view that displays generated signals graphically
+        - the application's menu and status bars
+        - a bank of signal and noise controls
+        - a bank of controls for the available sinks
+        """
+        
         self.menubar = MenuBar(self, self.MenuHandler)
         self.statusbar = StatusBar(self)
         
@@ -94,6 +130,11 @@ class Frame(wx.Frame):
     #   ------------------------------------------------------------------------
     def xOnFileOpen(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Menu handler to display dialog to load a previously saved configuration 
+        for the available signal and noise sources and sinks.
+        """
+        
         dialog = wx.FileDialog(self, "Load Configuration", 
             style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST)
         if self.configfile:
@@ -110,6 +151,11 @@ class Frame(wx.Frame):
     #   ------------------------------------------------------------------------
     def xOnFileSave(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Menu handler to save current signal and noise source and sink 
+        configuration to a previously established file name.
+        """
+        
         if not self.configfile:
             return self.xOnFileSaveAs(event)
         config = Config(self)
@@ -119,6 +165,11 @@ class Frame(wx.Frame):
     #   ------------------------------------------------------------------------
     def xOnFileSaveAs(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Menu handler to establish (new) file name for signal, noise and sink 
+        configuration, then save current configuration to that file.
+        """
+        
         dialog = wx.FileDialog(self, "Save Configuration", 
             style=wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
         if self.configfile:
@@ -135,6 +186,9 @@ class Frame(wx.Frame):
     #   ------------------------------------------------------------------------
     def xOnHelpAbout(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Menu handler to show the application's About box.
+        """
         about = AboutBox()
         about.Show()
         
@@ -142,6 +196,11 @@ class Frame(wx.Frame):
     #   ------------------------------------------------------------------------
     def xOnConfigUdp(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Menu handler to display dialog to allow customization of the 
+        application's UDP sink configuration.
+        """
+        
         dialog = ConfigureUdpDialog(self, self.udpConfig)
         if dialog.ShowModal() == wx.ID_CANCEL:
             dialog.Destroy()
@@ -159,6 +218,11 @@ class Frame(wx.Frame):
     #   ------------------------------------------------------------------------
     def xOnConfigFile(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Menu handler to display dialog to allow customization of the 
+        application's file sink configuration.
+        """
+
         dialog = ConfigureFileDialog(self, self.fileConfig)
         if dialog.ShowModal() == wx.ID_CANCEL:
             dialog.Destroy()
@@ -173,6 +237,11 @@ class Frame(wx.Frame):
     #   ------------------------------------------------------------------------
     def xOnConfigWave(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Menu handler to display dialog to allow customization of the 
+        application's wave file sink configuration.
+        """
+
         dialog = ConfigureWaveDialog(self, self.waveConfig)
         if dialog.ShowModal() == wx.ID_CANCEL:
             dialog.Destroy()
