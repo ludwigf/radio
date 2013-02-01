@@ -5,10 +5,16 @@ import wx
 #   ============================================================================
 class FileControl(wx.Panel):
 #   ============================================================================
-
+    """
+    wx.Panel based control that shows and allows the user to change a filename.
+    """
+    
     #   ------------------------------------------------------------------------
     def __init__(self, parent, value, size=None):
     #   ------------------------------------------------------------------------
+        """
+        Initialize the underlying wx object and trigger GUI creation,
+        """
         super(FileControl, self).__init__(parent)
         self.xInitGui(value, size)
         
@@ -18,18 +24,27 @@ class FileControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def GetValue(self):
     #   ------------------------------------------------------------------------
+        """
+        Returns currently selected filename,
+        """
         return self.edit.GetValue()
     
     
     #   ------------------------------------------------------------------------
     def SetValue(self, value):
     #   ------------------------------------------------------------------------
+        """
+        Sets surrent filename.
+        """
         self.edit.SetValue(value)
         
         
     #   ------------------------------------------------------------------------
     def xInitGui(self, value, size):
     #   ------------------------------------------------------------------------
+        """
+        Creates user interface.
+        """
         self.edit = wx.TextCtrl(self, value=value)
         self.button = wx.Button(self, label="...", size=(22,22))
         sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -43,6 +58,9 @@ class FileControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def xOnButton(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Trigger filename selection through a wx.FileDialog object.
+        """
         dialog = wx.FileDialog(self, "Select File:", "", self.GetValue())
         if dialog.ShowModal() == wx.ID_CANCEL:
             dialog.Destroy()

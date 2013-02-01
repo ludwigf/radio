@@ -5,12 +5,23 @@ import wx
 #   ============================================================================
 class SignalControl(wx.Panel):
 #   ============================================================================
-
+    """
+    wx.Panel based control that allows configuration of a single channel 
+    signal generator. Any changes initiated by modifying control settings are
+    sent to a command handler. The syntax of the commands sent to the handler
+    is "target (setting, value)".
+    """
+    
     WaveForms = ["Sine", "Cosine", "Square", "Triangle", "Sawtooth"]
     
     #   ------------------------------------------------------------------------
     def __init__(self, parent, name="", handlers=[]):
     #   ------------------------------------------------------------------------
+        """
+        Initialize the underlying wx component and trigger creation of the user
+        interface. Wire embedded controls to the embedded command handler.
+        """
+        
         super(SignalControl, self).__init__(parent, size=(200,200))
         self.name = name
         self.handlers = handlers
@@ -27,12 +38,20 @@ class SignalControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def SetHandlers(self, handlers):
     #   ------------------------------------------------------------------------
+        """
+        Set list of external command handlers to be called when settings change
+        (in addition to the internal handler).
+        """
         self.handlers = handlers
         
     
     #   ------------------------------------------------------------------------
     def GetConfig(self):
     #   ------------------------------------------------------------------------
+        """
+        Return dictionary containing current signal settings.
+        """
+        
         config = {}
         config["type"] = "signal"
         config["name"] = self.name
@@ -49,6 +68,10 @@ class SignalControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def SetConfig(self, config):
     #   ------------------------------------------------------------------------
+        """
+        Initialize signal control setting from the values of a given dictionary.
+        """
+        
         if config["name"] != self.name:
             return
         self.freqSlider.SetValue(int(config["frequency"]))
@@ -62,6 +85,9 @@ class SignalControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def xInitGui(self):
     #   ------------------------------------------------------------------------
+        """
+        Create the signal control user interface.
+        """
         waveLabel = wx.StaticText(self, label="Wave:", size=(40,20),
             style=wx.ST_NO_AUTORESIZE)
         self.waveForm = wx.ComboBox(self, choices=SignalControl.WaveForms, 
@@ -120,6 +146,10 @@ class SignalControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def xHandler(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Internal event handler. Creates command based on current control 
+        settings then triggers invokation of external command handlers.
+        """
         sender = event.GetEventObject()
         if sender == self.muteBox:
             mute = "true"
@@ -155,6 +185,9 @@ class SignalControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def xProcessCommand(self, command):
     #   ------------------------------------------------------------------------
+        """
+        Invoke external command handlers on the given command.
+        """
         for handler in self.handlers:
             handler.ProcessCommand(self.name, command)
             

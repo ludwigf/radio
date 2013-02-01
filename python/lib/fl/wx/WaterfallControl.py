@@ -7,10 +7,17 @@ import wx
 #   ============================================================================
 class WaterfallControl(wx.Panel):
 #   ============================================================================
+    """
+    Wrapper for the Gnuradio waterfallsink2.waterfall_sink_f sink class.
+    """
 
     #   ------------------------------------------------------------------------
     def __init__(self, parent):
     #   ------------------------------------------------------------------------
+        """
+        Initialize, create and place wrapped Gnuradio object onto the underlying
+        wx.Panel.
+        """
         super(WaterfallControl, self).__init__(parent)
         self.sink = waterfallsink2.waterfall_sink_f(
             self,

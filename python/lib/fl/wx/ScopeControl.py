@@ -8,10 +8,17 @@ import wx
 #   ============================================================================
 class ScopeControl(wx.Panel):
 #   ============================================================================
-
-     #   ------------------------------------------------------------------------
+    """
+    Wrapper for the Gnuradio scopesink2.scope_sink_f sink class.
+    """
+    
+     #   -----------------------------------------------------------------------
     def __init__(self, parent, channels=1):
     #   ------------------------------------------------------------------------
+        """
+        Initialize, create and place wrapped Gnuradio object onto the underlying
+        wx.Panel.
+        """
         super(ScopeControl, self).__init__(parent)
         self.sink = scopesink2.scope_sink_f(
             self,
@@ -34,6 +41,9 @@ class ScopeControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def Sink(self):
     #   ------------------------------------------------------------------------
+        """
+        Return the embedded Gnuradio sink object.
+        """
         return self.sink
     
 

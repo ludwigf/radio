@@ -7,10 +7,17 @@ import wx
 #   ============================================================================
 class HistoControl(wx.Panel):
 #   ============================================================================
+    """
+    Wrapper for the Gnuradio histosink_gl.histo_sink_f sink class.
+    """
 
     #   ------------------------------------------------------------------------
     def __init__(self, parent):
     #   ------------------------------------------------------------------------
+        """
+        Initialize, create and place wrapped Gnuradio object onto the underlying
+        wx.Panel.
+        """
         super(HistoControl, self).__init__(parent)
         self.sink = histosink_gl.histo_sink_f(
             self,

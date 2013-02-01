@@ -5,12 +5,22 @@ import wx
 #   ============================================================================
 class NoiseControl(wx.Panel):
 #   ============================================================================
-
+    """
+    wx.Panel based control that allows configuration of a single channel 
+    noise generator. Any changes initiated by modifying control settings are
+    sent to a command handler. The syntax of the commands sent to the handler
+    is "target (setting, value)".
+    """
+    
     NoiseForms = ["Uniform", "Gaussian", "Laplacian", "Impulse"]
     
     #   ------------------------------------------------------------------------
     def __init__(self, parent, name="", handlers=[]):
     #   ------------------------------------------------------------------------
+        """
+        Initialize the underlying wx component and trigger creation of the user
+        interface. Wire embedded controls to the embedded command handler.
+        """
         super(NoiseControl, self).__init__(parent, size=(200,200))
         self.name = name
         self.handlers = handlers
@@ -24,11 +34,18 @@ class NoiseControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def SetHandlers(self, handlers):
     #   ------------------------------------------------------------------------
+        """
+        Set list of external command handlers to be called when settings change
+        (in addition to the internal handler).
+        """
         self.handlers = handlers
         
     #   ------------------------------------------------------------------------
     def GetConfig(self):
     #   ------------------------------------------------------------------------
+        """
+        Return dictionary containing current signal settings.
+        """
         config = {}
         config["type"] = "noise"
         config["name"] = self.name
@@ -43,6 +60,9 @@ class NoiseControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def SetConfig(self, config):
     #   ------------------------------------------------------------------------
+        """
+        Initialize signal control setting from the values of a given dictionary.
+        """
         if config["name"] != self.name:
             return
         self.noiseForm.SetValue(config["noiseform"].capitalize())
@@ -54,6 +74,9 @@ class NoiseControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def xInitGui(self):
     #   ------------------------------------------------------------------------
+        """
+        Create the noise control user interface.
+        """
         noiseLabel = wx.StaticText(self, label="Noise:", size=(40,20),
             style=wx.ST_NO_AUTORESIZE)
         self.noiseForm = wx.ComboBox(self, choices=NoiseControl.NoiseForms, 
@@ -101,9 +124,14 @@ class NoiseControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def xHandler(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Internal event handler. Creates command based on current control 
+        settings then triggers invokation of external command handlers.
+        """
         sender = event.GetEventObject()
         if sender == self.muteBox:
             command = ("mute", self.muteBox.GetValue())
+            print ">d", command
             self.xProcessCommand(command)
             return
         if sender == self.noiseForm:
@@ -124,6 +152,9 @@ class NoiseControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def xProcessCommand(self, command):
     #   ------------------------------------------------------------------------
+        """
+        Invoke external command handlers on the given command.
+        """
         for handler in self.handlers:
             handler.ProcessCommand(self.name, command)
             

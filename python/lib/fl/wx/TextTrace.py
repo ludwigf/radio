@@ -5,10 +5,17 @@ import wx
 #   ============================================================================
 class TextTrace(wx.TextCtrl):
 #   ============================================================================
+    """
+    Control that simply traces all commands it receives into a wx>textCtrl. Used
+    for debugging purposes.
+    """
 
     #   ------------------------------------------------------------------------
     def __init__(self, parent):
     #   ------------------------------------------------------------------------
+        """
+        Initializes underlying wx.TextCtrl object.
+        """
         super(TextTrace, self).__init__(
             parent, style=wx.TE_MULTILINE|wx.TE_READONLY)
         self.xInitGui()
@@ -21,6 +28,9 @@ class TextTrace(wx.TextCtrl):
     #   ------------------------------------------------------------------------
     def ProcessCommand(self, sender, command):
     #   ------------------------------------------------------------------------
+        """
+        Trace given command as a new line of text.
+        """
         text = "%-8.8s: %s %s\n" % (sender, command[0], command[1])
         self.AppendText(text)
         

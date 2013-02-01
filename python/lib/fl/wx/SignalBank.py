@@ -7,10 +7,17 @@ import wx
 #   ============================================================================
 class SignalBank(wx.Panel):
 #   ============================================================================
-
+    """
+    wx.Panel based control that aggregates multiple SignalControls and/or
+    NoiseControls.
+    """
+    
     #   ------------------------------------------------------------------------
     def __init__(self, parent, signals, noises=[], handlers=[]):
     #   ------------------------------------------------------------------------
+        """
+        Initializes the underlying wx object and triggers GUI creation.
+        """
         super(SignalBank, self).__init__(parent)
         self.xInitGui(signals, noises, handlers)
         
@@ -18,6 +25,10 @@ class SignalBank(wx.Panel):
     #   ------------------------------------------------------------------------
     def SetHandlers(self, handlers):
     #   ------------------------------------------------------------------------
+        """
+        Assigns external handlers to each of the constituent SignalContols 
+        and/or NoiseControls.
+        """
         for signal in self.signals:
             signal.SetHandlers(handlers)
             
@@ -25,6 +36,10 @@ class SignalBank(wx.Panel):
     #   ------------------------------------------------------------------------
     def GetConfig(self):
     #   ------------------------------------------------------------------------
+        """
+        Get current settings for all constituent Signal/NoiseControls as a list
+        of config dictionaries.
+        """
         config = [signal.GetConfig() for signal in self.signals]
         return config
     
@@ -32,12 +47,19 @@ class SignalBank(wx.Panel):
     #   ------------------------------------------------------------------------
     def SetConfig(self, config):
     #   ------------------------------------------------------------------------
+        """
+        Adjusts current settings ofall constituent Signal/NoiseControls from a
+        list of config disctionaries.
+        """
         for signal in self.signals:
             signal.SetConfig(config)
             
     #   ------------------------------------------------------------------------
     def xInitGui(self, signals, noises, handlers):
     #   ------------------------------------------------------------------------
+        """
+        Creates the user interface.
+        """
         sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.signals = []
         for signal in signals:

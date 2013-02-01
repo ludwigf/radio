@@ -5,10 +5,18 @@ import wx
 #   ============================================================================
 class SinkControl(wx.Panel):
 #   ============================================================================
-
+    """
+    wx.Panel based control to turn signal sinks (such as Audio Out, File Out, 
+    ...) on or off.
+    """
+    
     #   ------------------------------------------------------------------------
     def __init__(self, parent, name, state=True, handlers=[]):
     #   ------------------------------------------------------------------------
+        """
+        Initialize the underlying wx component and trigger creation of the user
+        interface. Wire embedded controls to the embedded command handler.
+        """
         super(SinkControl, self).__init__(parent, size=(200,120))
         self.name = name
         self.handlers = handlers
@@ -19,11 +27,19 @@ class SinkControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def SetHandlers(self, handlers):
     #   ------------------------------------------------------------------------
+        """
+        Set list of external command handlers to be called when settings change
+        (in addition to the internal handler).
+        """
         self.handlers = handlers
               
     #   ------------------------------------------------------------------------
     def SetStatus(self, status):
     #   ------------------------------------------------------------------------
+        """
+        Set GUI state to either ON or OFF. Used to adjust GUI state in response
+        to external events such as a configuration change.
+        """
         if status == "on":
             self.runButton.SetLabel("Stop")
         if status == "off":
@@ -32,6 +48,9 @@ class SinkControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def xInitGui(self, state):
     #   ------------------------------------------------------------------------
+        """
+        Create the signal control user interface.
+        """
         sinkLabel = wx.StaticText(self, label=self.name)
         hbox1 = wx.BoxSizer(wx.HORIZONTAL)
         hbox1.AddStretchSpacer(1)
@@ -64,6 +83,10 @@ class SinkControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def xHandler(self, event):
     #   ------------------------------------------------------------------------
+        """
+        Internal event handler. Creates command based on current control 
+        settings then triggers invokation of external command handlers.
+        """
         sender = event.GetEventObject()
         if sender == self.runButton:
             if sender.GetLabel() == "Start":
@@ -80,6 +103,9 @@ class SinkControl(wx.Panel):
     #   ------------------------------------------------------------------------
     def xProcessCommand(self, command):
     #   ------------------------------------------------------------------------
+        """
+        Invoke external command handlers on the given command.
+        """
         for handler in self.handlers:
             handler.ProcessCommand(self.name, command)
             

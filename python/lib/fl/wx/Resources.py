@@ -1,7 +1,4 @@
 #!  /usr/bin/env python
-#   ****************************************************************************
-#   ResourceManager.py
-#   ****************************************************************************
 
 import wx
 import os
@@ -10,23 +7,44 @@ import os.path
 #   ============================================================================
 class Resources(object):
 #   ============================================================================
-
+    """
+    Minimalist resource manager, currently only supporting bitmaps.
+    Works off a resource base directory which must have the following layout:
+    -   bitmaps     - 16x16     - bitmap1.png
+                                - bitmap2.pnp
+                                  ...
+                    - 32x32     - bitmapA.png
+                                - bitmapB.png
+                                  ...
+                    - 64x64       ...
+    The bitmap's base name may be anything but their extension must be png.
+    """
+    
     #   ------------------------------------------------------------------------
     def __init__(self, basedir=None):
     #   ------------------------------------------------------------------------
+        """
+        Trigger resource index creation.
+        """
         super(Resources, self).__init__()
-        self.Initialize(basedir or "resources")
+        self.xInitialize(basedir or "resources")
 
 
     #   ------------------------------------------------------------------------
-    def Initialize(self, basedir):
+    def xInitialize(self, basedir):
     #   ------------------------------------------------------------------------
-        self.InitializeBitmaps(basedir)
+        """
+        Index available resources.
+        """
+        self.xInitializeBitmaps(basedir)
 
 
     #   ------------------------------------------------------------------------
-    def InitializeBitmaps(self, basedir):
+    def xInitializeBitmaps(self, basedir):
     #   ------------------------------------------------------------------------
+        """
+        Index available PNG bitmaps.
+        """
         self.bitmaps = {}
         basedir = os.path.join(basedir, "bitmaps")
         if not os.path.isdir(basedir):
@@ -49,6 +67,9 @@ class Resources(object):
     #   ------------------------------------------------------------------------
     def Bitmap(self, size, name):
     #   ------------------------------------------------------------------------
+        """
+        Return wx.Bitmap object based on file basename and bitmap size.
+        """
         try:
             return self.bitmaps[size][name]
         except:
@@ -58,6 +79,9 @@ class Resources(object):
     #   ------------------------------------------------------------------------
     def Icon(self, size, name):
     #   ------------------------------------------------------------------------
+        """
+        Return wx.Icon object based on file basename and bitmap size.
+        """
         bitmap = self.Bitmap(size, name)
         if not bitmap:
             return None

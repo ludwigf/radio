@@ -6,10 +6,16 @@ import wx
 #   ============================================================================
 class SinkBank(wx.Panel):
 #   ============================================================================
-
+    """
+    wx.Panel based control that aggregates multiple SinkControls.
+    """
+    
     #   ------------------------------------------------------------------------
     def __init__(self, parent, sinks, handlers=[]):
     #   ------------------------------------------------------------------------
+        """
+        Initializes underlying wx object and triggers GUI creation.
+        """
         super(SinkBank, self).__init__(parent)
         self.xInitGui(sinks, handlers)
         
@@ -17,6 +23,9 @@ class SinkBank(wx.Panel):
     #   ------------------------------------------------------------------------
     def SetHandlers(self, handlers):
     #   ------------------------------------------------------------------------
+        """
+        Assigns external handlers to each of the constituent SinkControls.
+        """
         for sink in self.sinks:
             sink.SetHandlers(handlers)
             
@@ -24,6 +33,9 @@ class SinkBank(wx.Panel):
     #   ------------------------------------------------------------------------
     def StopAll(self):
     #   ------------------------------------------------------------------------
+        """
+        Mutes constituent SinkControls all at once.
+        """
         for sink in self.sinks:
             sink.SetStatus("off")
         
@@ -31,6 +43,9 @@ class SinkBank(wx.Panel):
     #   ------------------------------------------------------------------------
     def xInitGui(self, sinks, handlers):
     #   ------------------------------------------------------------------------
+        """
+        Creates the user interface.
+        """
         sizer = wx.BoxSizer(wx.HORIZONTAL)
         self.sinks = []
         sizer.AddStretchSpacer(1)
