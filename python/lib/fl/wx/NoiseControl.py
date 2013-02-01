@@ -130,7 +130,10 @@ class NoiseControl(wx.Panel):
         """
         sender = event.GetEventObject()
         if sender == self.muteBox:
-            command = ("mute", self.muteBox.GetValue())
+            mute = "true"
+            if not self.muteBox.GetValue():
+                mute = "false"
+            command = ("mute", mute)
             print ">d", command
             self.xProcessCommand(command)
             return
