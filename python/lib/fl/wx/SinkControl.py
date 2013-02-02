@@ -90,12 +90,12 @@ class SinkControl(wx.Panel):
         sender = event.GetEventObject()
         if sender == self.runButton:
             if sender.GetLabel() == "Start":
-                command = ("run", "true")
+                command = ("enable", "true")
                 self.xProcessCommand(command)
                 sender.SetLabel("Stop")
                 return        
             if sender.GetLabel() == "Stop":
-                command = ("run", "false")
+                command = ("enable", "false")
                 self.xProcessCommand(command)
                 sender.SetLabel("Start")
                 return        

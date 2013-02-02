@@ -52,8 +52,8 @@ class SignalGenerator(gr.top_block):
             return self.xSetFrequency(sender, int(command[1]))
         if command[0] == "amplitude":
             return self.xSetAmplitude(sender, int(command[1]))
-        if command[0] == "run":
-            return self.xSetRun(sender, command[1]=="true")
+        if command[0] == "enable":
+            return self.xSetEnable(sender, command[1]=="true")
         wx.GetApp().PostStatus(
             "SignalGenerator Error: Unknown command \"%s\"" % command[0])
         
@@ -214,7 +214,7 @@ class SignalGenerator(gr.top_block):
         
         
     #   ------------------------------------------------------------------------
-    def xSetRun(self, sender, state):
+    def xSetEnable(self, sender, state):
     #   ------------------------------------------------------------------------
         if sender == "Audio Out":
             self.audiomute.set_mute(not state)
